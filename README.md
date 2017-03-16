@@ -3,7 +3,8 @@ This small project is for creating 2d images of your tsne.
 The project was inspired by [Andrej Karpathy's blog post](http://cs.stanford.edu/people/karpathy/cnnembed/) on the visualization of CNNs using t-sne.  
 (this guy is pretty sharp :wink: - you should definitely follow him! ) 
 
-### examples
+
+## some examples
 <p align='center'>
 <img src="/examples/mnist2d.jpg" alt="Image of mnist 2d image" width="300" height="300"/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
