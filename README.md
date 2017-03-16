@@ -8,7 +8,7 @@ The project was inspired by [Andrej Karpathy's blog post](http://cs.stanford.edu
 <p align='center'>
 <img src="/examples/mnist2d.jpg" alt="Image of mnist 2d image" width="300" height="300"/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="/examples/small_mnistscatter.jpg" alt="Image of mnist scatter image" width="300" height="300"/>
+<img src="/examples/mnistscatter.jpg" alt="Image of mnist scatter image" width="300" height="300"/>
 <br/>
 mnist 2d image example
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
