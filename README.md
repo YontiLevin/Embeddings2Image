@@ -5,7 +5,7 @@ The project was inspired by [Andrej Karpathy's blog post](http://cs.stanford.edu
 
 ### examples
 ![Image of mnist 2d image]
-(https://github.com/YontiLevin/visualize-tsne/examples/mnist2d.jpg)
+(examples/mnist2d.jpg?raw=true)
 ![Image of mnist scatter image]
-(https://github.com/YontiLevin/visualize-tsne/examples/mnistscatter.jpg)
+(examples/mnistscatter.jpg?raw=true)
 
