@@ -30,14 +30,14 @@ image.load_data()
 image.calculate_tsne()
 image.create_image()
 ```
-* important! the module expects an hdf5 file with 2 datasets:
-   - urls - datasets which contain the path/url of each image
-   - vectors - dataset which contains the corresponding vector for each image.    
-               make sure that they are both ordered alike
+#### important! the module expects an hdf5 file with 2 datasets:   
+ * urls - datasets which contain the path/url of each image    
+ * vectors - dataset which contains the corresponding vector for each image.           
+             make sure that they are both ordered alike
 
-* another option is to load the data and urls explicitly:
-   - urls - create a np.asarray out of a url list and load to image.image_list
-   - vectors - create a np.ndarray of the vectors and load to image.data_vectors
+#### another option is to load the data and urls explicitly:     
+ * urls - create a np.asarray out of a url list and load to image.image_list    
+ * vectors - create a np.ndarray of the vectors and load to image.data_vectors   
  
 ### from cmd
 ```
@@ -153,5 +153,5 @@ image.create_image()  #  straight forward
   - [ ] cifar 100
   - [ ] imagenet
 - [x] better documentation 
-  - [ ] add usage examples to readme
+  - [x] add usage examples to readme
 - [ ] \(optional) create server
