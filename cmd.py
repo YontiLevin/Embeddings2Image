@@ -40,6 +40,6 @@ if __name__ == "__main__":
     tsne_image.args = args
     tsne_image.load_data()
     tsne_image.calculate_tsne()
-    tsne_image.create()
+    tsne_image.create_image()
 
     print('Done!')

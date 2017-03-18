@@ -205,7 +205,7 @@ class TsneImage(object):
         _, miny = self.tsne_vectors[miny_idx]
         self.tsne_vectors -= [minx, miny]
 
-    def create(self):
+    def create_image(self):
         self._shift()
         if self._output_img_type == GRID:
             constructed_image = self._grid()
