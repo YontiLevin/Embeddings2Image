@@ -63,7 +63,7 @@ class TsneImage(object):
 
     @output_img_size.setter
     def output_img_size(self, img_size):
-        self._output_img_name = img_size
+        self._output_img_size = img_size
         self._ratio = int(self.output_img_size/self.each_img_size)
 
     @property
@@ -127,10 +127,11 @@ class TsneImage(object):
 
     @batch_size.setter
     def batch_size(self, size):
+        self._batch_size = size
         if size > self.data_vectors.shape[0]:
             self.load_data()
-        self._batch_size = size
-        self._crop()
+        else:
+            self._crop()
 
     @property
     def method(self):
@@ -194,7 +195,8 @@ class TsneImage(object):
         if self.method == SKLEARN:
             tsne_vectors = TSNE(n_components=2, perplexity=40, verbose=2).fit_transform(self.data_vectors)
         else:
-            tsne_vectors = MATTENS_TSNE(self.data_vectors, no_dims=2, initial_dims=self.data_vectors.shape[1], perplexity=40.0)
+            tsne_vectors = MATTENS_TSNE(self.data_vectors, no_dims=2, initial_dims=self.data_vectors.shape[1],
+                                        perplexity=40.0)
         self.tsne_vectors = tsne_vectors
 
     def _shift(self):
@@ -227,11 +229,15 @@ class TsneImage(object):
                 tsne_dist = np.hypot(tmp_tsne[:, 0], tmp_tsne[:, 1])
                 min_index = np.argmin(tsne_dist)
                 used_imgs[min_index] = True
-                img_path = self._image_list[min_index]
+                img_path = self.image_list[min_index]
                 small_img, x1, y1, dx, dy = get_image(img_path, self.each_img_size)
                 if small_img is None:
                     y -= 1
                     continue
+                if x < 1 and all(side < self.each_img_size for side in [x1, y1]):
+                    self.each_img_size = min(x1, y1)
+                    dx = int(ceil(x1 / 2))
+                    dy = int(ceil(y1 / 2))
                 image[x0 + dx:x0 + dx + x1, y0 + dy:y0 + dy + y1] = small_img
 
         return image
@@ -245,11 +251,15 @@ class TsneImage(object):
         image = np.zeros((int(ceil(maxx)) + self.each_img_size,
                           int(ceil(maxy)) + self.each_img_size, 3)) * self.background_color
         for i in tqdm(range(image_num)):
-            img_path = self._image_list[i]
-            x0, y0 = map(int, self.tsne_vectors[i])
+            img_path = self.image_list[i]
+            x0, y0 = map(int, tmp_vectors[i])
             small_img, x1, y1, dx, dy = get_image(img_path, self.each_img_size)
             if small_img is None:
                 continue
+            if i < 1 and all(side < self.each_img_size for side in [x1,y1]):
+                self.each_img_size = min(x1, y1)
+                dx = int(ceil(x1 / 2))
+                dy = int(ceil(y1 / 2))
             # test if there is an image there already
             if np.max(image[x0 + dx:x0 + dx + x1, y0 + dy:y0 + dy + y1]) > 0:
                 continue
