@@ -144,8 +144,6 @@ image.calculate_tsne()  #  straight forward
 
 image.create_image()  #  straight forward
 
-#
-
  ```
 ## TODO list
 - [x] upload my code
