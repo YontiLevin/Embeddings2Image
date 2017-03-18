@@ -34,6 +34,7 @@ image.create_image()
  * urls - datasets which contain the path/url of each image    
  * vectors - dataset which contains the corresponding vector for each image.           
              make sure that they are both ordered alike
+ * checkout this [hdf5 example](examples/create_hdf5_example.py)
 
 #### another option is to load the data and urls explicitly:     
  * urls - create a np.asarray out of a url list and load to image.image_list    
