@@ -145,8 +145,10 @@ image.calculate_tsne()  #  straight forward
 image.create_image()  #  straight forward
 
  ```
+ 
 ## TODO list
 - [x] upload my code
+  - [ ] add change preplexity option
 - [ ] upload more examples
   - [ ] cifar 10
   - [ ] cifar 100
