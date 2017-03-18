@@ -91,7 +91,8 @@ image.output_img_type  #  getter
 image.output_img_type = 'grid' # expects string. default is 'scatter'. set grid to this way.
 
 image.output_img_size  #  getter
-image.output_img_size =  2500  # expects int. default is 2500. all images are squared so it means 2500x2500 img.
+image.output_img_size =  2500  # expects int. default is 2500. 
+                               # all images are squared so it means 2500x2500 img.
                                # also the image type(scatter/grid) is added automatically
 
 image.each_img_size    #  getter
@@ -102,29 +103,36 @@ image.each_img_size =  50      # expects int. default is 50.
 image.image_list       #  getter
 image.image_list = img_list    # expects numpy array of strings. 
                                # this is filled up automatically when load_data is called.
-                               # set this explicitly only if you dont load your data from an hdf5 file
+                               # set this explicitly only if you dont load your data from 
+                               # an hdf5 file
 
 image.data_vector      #  getter
 image.data_vector = data       # expects numpy ndarray of dense vectors. 
                                # this is filled up automatically when load_data is called.
-                               # set this explicitly only if you dont load your data from an hdf5 file
+                               # set this explicitly only if you dont load your data from 
+                               # an hdf5 file
 
 image.batch_size       #  getter
 image.batch_size =  5000       # expects int. default is 0 which means that all images are taken
                                # use this when you have memory issues. 
-                               # it will shuffle your data and take only a subset in order to compute the tsne. 
+                               # it will shuffle your data and take only a subset in order to 
+                               # compute the tsne. 
 
 image.method       #  getter
-image.method =  'maaten'       # expects string. default is 'sklearn'. the other option is 'maaten'
-                               # this sets the tsne method to sklearn.tsne vs python version of Maaten's tsne.
-                               # i guess they both do the same but didn't fully check it so i left it as an option
+image.method =  'maaten'       # expects string. default is 'sklearn'. 
+                               # the other option is 'maaten'
+                               # this sets the tsne method to sklearn.tsne vs python version
+                               # of Maaten's tsne.
+                               # i guess they both do the same but didn't fully check it 
+                               # so i left it as an option
 
 image.background_color         #  getter
-image.background_color =  'white'       # expects string. default is 'black'. the other option is 'white'
+image.background_color =  'white'  # expects string. default is 'black'. the other option is 'white'
                                         
 image.tsne_vector      #  getter
 image.tsne_vector = data       # expects numpy ndarray of dense 2d vectors. 
-                               # this is filled up automatically when image.calaculate_tsne is called.
+                               # this is filled up automatically when 
+                               # image.calaculate_tsne is called.
                                # set this explicitly only if you have already the tsne vectors
 
 # the followings are methods
