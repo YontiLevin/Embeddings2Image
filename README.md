@@ -33,11 +33,38 @@ image.create_image()
 ### from cmd
 ```
 root@yonti:~/github/visualize-tsne$ python cmd.py -h
-usage: visualize_tsne.py [-h] [-n NDARRAY] [-u IMAGES_LIST] [-f HDF5]
-                         [-o OUTPUT_FILENAME] [-s EMBEDDING_SIZE] [-i IMAGE_SIZE]
-                         [-t METHOD]
+usage: cmd.py [-h] -d PATH2DATA [-n OUTPUT_NAME] [-t OUTPUT_TYPE]
+              [-s OUTPUT_SIZE] [-i EACH_IMG_SIZE] [-c BG_COLOR] [--no-shuffle]
+              [--no-sklearn] [--no-svd] [-b BATCH_SIZE]
 
-root@yonti:~/github/visualize-tsne$ python visualize_tsne.py -f data2.hdf5 -i 50 -s 4000 -o data2.jpg 
+t-SNE visualization using images
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d PATH2DATA, --path2data PATH2DATA
+                        Path to the hdf5 file
+  -n OUTPUT_NAME, --output_name OUTPUT_NAME
+                        output image name. Default is tsne_scatter/grid.jpg
+  -t OUTPUT_TYPE, --output_type OUTPUT_TYPE
+                        the type of the output images (scatter/grid)
+  -s OUTPUT_SIZE, --output_size OUTPUT_SIZE
+                        output image size (default=2500)
+  -i EACH_IMG_SIZE, --img_size EACH_IMG_SIZE
+                        each image size (default=50)
+  -c BG_COLOR, --background BG_COLOR
+                        choose output background color (black/white)
+  --no-shuffle          use this flag if you don't want to shuffle
+  --no-sklearn          use this flag if you don't want to use sklearn
+                        implementation of tsne and you prepare the local
+                        option
+  --no-svd              it is better to reduce the dimension of long dense
+                        vectors to a size of 50 or smallerbefore computing the
+                        tsne.use this flag if you don't want to do so
+  -b BATCH_SIZE, --batch_size BATCH_SIZE
+                        for speed/memory size errors consider using just a
+                        portion of your data (default=all)
+
+root@yonti:~/github/visualize-tsne$ python cmd.py -d /home/data/data.hdf5 -i 50 -s 4000 -n test
 ```
 
 ## TODO list
