@@ -23,12 +23,12 @@ mnist scatter image example
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="/examples/cifar10_scatter.jpg" alt="cifar10 scatter example" width="300" height="300"/>
 <br/>
-cifar10 grid example
+cifar10 grid image example
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-cifar10 scatter example
+cifar10 scatter image example
 </p>
 
 ## usage
