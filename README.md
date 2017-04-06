@@ -17,6 +17,19 @@ mnist 2d image example
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 mnist scatter image example
 </p>
+<br/>
+<p align='center'>
+<img src="/examples/cifar10_grid.jpg" alt="cifar10 grid example" width="300" height="300"/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="/examples/cifar10_scatter.jpg" alt="cifar10 scatter example" width="300" height="300"/>
+<br/>
+cifar10 grid example
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cifar10 scatter example
+</p>
 
 ## usage
 
@@ -149,9 +162,10 @@ image.create_image()  #  straight forward
 ## TODO list
 - [x] upload my code
   - [ ] add change preplexity option
+  - [ ] add scatter density control
+  - [ ] add simple oneliner opertion option
 - [ ] upload more examples
-  - [ ] cifar 10
-  - [ ] cifar 100
+  - [X] cifar 10
   - [ ] imagenet
 - [x] better documentation 
   - [x] add usage examples to readme
