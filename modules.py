@@ -1,5 +1,5 @@
 from sklearn.decomposition import TruncatedSVD
-from sklearn.manifold import TSNE
+from sklearn.manifold import TSNE as SKLEARN_TSNE
 from Maatens_tsne import TSNE as MATTENS_TSNE
 from img_tools import get_image
 from tqdm import tqdm
@@ -7,29 +7,32 @@ import cv2
 from math import ceil
 import h5py
 import numpy as np
+from umap import UMAP as UMAP_PROJECTION
+
+# CONSTS
 SCATTER = 'scatter'
 GRID = 'grid'
 BLACK = 'black'
 WHITE = 'white'
 SKLEARN = 'sklearn'
 MAATEN = 'matten'
+UMAP = 'umap'
 
 
-class TsneImage(object):
+class EmbeddingsProjection(object):
     def __init__(self):
         self._path2data = None
-        self._output_img_name = 'tsne'
+        self._output_img_name = 'Projection'
         self._output_img_type = SCATTER
         self._output_img_size = 2500
         self._each_img_size = 50
-        self._ratio = 50
         self._background_color = BLACK
         self._shuffle = True
-        self._method = SKLEARN
+        self._method = UMAP
         self._batch_size = 0
         self._svd = True
         self._data_vectors = None
-        self._tsne_vectors = None
+        self._projection_vectors = None
         self._image_list = None
 
     @property
@@ -64,11 +67,6 @@ class TsneImage(object):
     @output_img_size.setter
     def output_img_size(self, img_size):
         self._output_img_size = img_size
-        self._ratio = int(self.output_img_size/self.each_img_size)
-
-    @property
-    def ratio(self):
-        return self._ratio
 
     @property
     def image_list(self):
@@ -85,7 +83,6 @@ class TsneImage(object):
     @each_img_size.setter
     def each_img_size(self, img_size):
         self._each_img_size = img_size
-        self._ratio = int(self.output_img_size / self.each_img_size)
 
     @property
     def args(self):
@@ -139,15 +136,20 @@ class TsneImage(object):
 
     @method.setter
     def method(self, method):
+        if method != UMAP:
+            if len(self.data_vectors) > 10000:
+                print("""
+                WARNING! NOTICE THAT TSNE RUNS VERY SLOW AS THE NUMBER OF VECTORS GROW.\n
+                IT\'S RECOMMENDED TO SET A BATCH SIZE SMALLER THAN 10K OR USE UMAP PROJECTION""")
         self._method = method
 
     @property
-    def tsne_vectors(self):
-        return self._tsne_vectors
+    def projection_vectors(self):
+        return self._projection_vectors
 
-    @tsne_vectors.setter
-    def tsne_vectors(self, vectors):
-        self._tsne_vectors = vectors
+    @projection_vectors.setter
+    def projection_vectors(self, vectors):
+        self._projection_vectors = vectors
 
     @property
     def background_color(self):
@@ -156,19 +158,19 @@ class TsneImage(object):
     @background_color.setter
     def background_color(self, color):
         if color.upper() not in [BLACK, WHITE]:
-            print ('color can only accept BLACK or WHITE')
+            print('color can only accept BLACK or WHITE')
         else:
             self._background_color = color
 
     def load_data(self, data_filename=None):
         self.path2data = data_filename or self._path2data
         with h5py.File(self.path2data, 'r') as hf:
-            image_names = hf['.']['urls'].value
-            data_vecs = np.array(hf['.']['vectors'].value)
+            image_names = hf.get('urls').value
+            data_vecs = np.array(hf.get('vectors').value)
             assert len(image_names) == data_vecs.shape[0], 'img list length doen\'t match vector count'
             hf.close()
         self.data_vectors = data_vecs.astype(type('float_', (float,), {}))
-        self.image_list = np.array(image_names)
+        self.image_list = [f'data/mnist_imgs/{im.decode()}' for im in image_names]
         self._crop()
 
     def shuffle(self):
@@ -186,24 +188,28 @@ class TsneImage(object):
     def _perform_svd(self):
         if self._svd and self.data_vectors.shape[1] > 50:
             print('dimension reduction using svd')
-            print ('dimension before: {}'.format(str(self.data_vectors.shape[1])))
+            print('dimension before: {}'.format(str(self.data_vectors.shape[1])))
             self.data_vectors = TruncatedSVD(n_components=50, random_state=0).fit_transform(self.data_vectors)
-            print ('dimension after: {}'.format(str(self.data_vectors.shape[1])))
+            print('dimension after: {}'.format(str(self.data_vectors.shape[1])))
 
-    def calculate_tsne(self):
+    def calculate_projection(self):
         self._perform_svd()
         if self.method == SKLEARN:
-            tsne_vectors = TSNE(n_components=2, perplexity=40, verbose=2).fit_transform(self.data_vectors)
-        else:
-            tsne_vectors = MATTENS_TSNE(self.data_vectors, no_dims=2, initial_dims=self.data_vectors.shape[1],
+            projection_vectors = SKLEARN_TSNE(n_components=2, perplexity=40, verbose=2).fit_transform(self.data_vectors)
+        elif self.method == MAATEN:
+            projection_vectors = MATTENS_TSNE(self.data_vectors, no_dims=2, initial_dims=self.data_vectors.shape[1],
                                         perplexity=40.0)
-        self.tsne_vectors = tsne_vectors
+        else:
+            projection_vectors = UMAP_PROJECTION(n_neighbors=5, min_dist=0.3).fit_transform(self.data_vectors)
+        projection_vectors -= projection_vectors.min(axis=0)
+        projection_vectors /= projection_vectors.max(axis=0)
+        self.projection_vectors = projection_vectors
 
     def _shift(self):
-        minx_idx, miny_idx = self.tsne_vectors.argmin(axis=0)
-        minx, _ = self.tsne_vectors[minx_idx]
-        _, miny = self.tsne_vectors[miny_idx]
-        self.tsne_vectors -= [minx, miny]
+        minx_idx, miny_idx = self.projection_vectors.argmin(axis=0)
+        minx, _ = self.projection_vectors[minx_idx]
+        _, miny = self.projection_vectors[miny_idx]
+        self.projection_vectors -= [minx, miny]
 
     def create_image(self):
         self._shift()
@@ -215,13 +221,14 @@ class TsneImage(object):
         cv2.imwrite(filename, constructed_image)
 
     def _grid(self):
-        tsne_norm = self.tsne_vectors[:, ] / float(self.ratio)
-        used_imgs = np.equal(self.tsne_vectors[:, 0], None)
+        ratio = int(self.output_img_size / self.each_img_size)
+        tsne_norm = self.projection_vectors[:, ] / ratio
+        used_imgs = np.equal(self.projection_vectors[:, 0], None)
         image = np.ones((self.output_img_size, self.output_img_size, 3)) * self.background_color
-        for x in tqdm(range(self.ratio)):
+        for x in tqdm(range(ratio)):
             x0 = x * self.each_img_size
             x05 = (x + 0.5) * self.each_img_size
-            for y in range(self.ratio):
+            for y in range(ratio):
                 y0 = y * self.each_img_size
                 y05 = (y + 0.5) * self.each_img_size
                 tmp_tsne = tsne_norm - [x05, y05]
@@ -243,13 +250,14 @@ class TsneImage(object):
         return image
 
     def _scatter(self):
-        image_num = self.ratio ** 2
-        maxx_idx, maxy_idx = self.tsne_vectors.argmax(axis=0)
-        tmp_vectors = self.tsne_vectors * self.each_img_size * 2
+        image_num = len(self.image_list) #self.ratio ** 2
+        maxx_idx, maxy_idx = self.projection_vectors.argmax(axis=0)
+        tmp_vectors = self.projection_vectors * self.output_img_size  # self.each_img_size * 2
         maxx, _ = tmp_vectors[maxx_idx]
         _, maxy = tmp_vectors[maxy_idx]
-        image = np.zeros((int(ceil(maxx)) + self.each_img_size,
-                          int(ceil(maxy)) + self.each_img_size, 3)) * self.background_color
+        image = np.zeros((self.output_img_size + self.each_img_size, self.output_img_size + self.each_img_size, 3)) * self.background_color
+            # np.zeros((int(ceil(maxx)) + self.each_img_size,
+            #               int(ceil(maxy)) + self.each_img_size, 3)) * self.background_color
         for i in tqdm(range(image_num)):
             img_path = self.image_list[i]
             x0, y0 = map(int, tmp_vectors[i])
@@ -267,3 +275,18 @@ class TsneImage(object):
 
         return image
 
+if __name__ == '__main__':
+    from time import time
+    start = time()
+    image = EmbeddingsProjection()
+    image.path2data = 'data/mnist_images.hdf5'
+    image.load_data()
+    image.each_img_size = 25
+    # image.method = SKLEARN
+    image.calculate_projection()
+    image.output_img_name = 'data/mnist_march5'
+    image.output_img_type= 'scatter'
+    image.create_image()
+    stop = time()
+    duration = stop - start
+    print(f'process took {duration} seconds')

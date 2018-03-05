@@ -11,8 +11,8 @@ def standard_resize(image, max_side):
     if image is None:
         return None, None, None
     original_h, original_w, _ = image.shape
-    if all(side < max_side for side in [original_h, original_w]):
-        return image, original_h, original_w
+    # if all(side < max_side for side in [original_h, original_w]):
+    #     return image, original_h, original_w
     aspect_ratio = float(np.amax((original_w, original_h)) / float(np.amin((original_h, original_w))))
 
     if original_w >= original_h:
@@ -54,8 +54,8 @@ def get_image(img_path, image_new_size):
     if img_path.startswith('http'):
         np_img = url_to_img_array(img_path)
     else:
-        img = cv2.imread(img_path)
-        np_img = np.array(img)
+        np_img = cv2.imread(img_path)
+        # np_img = np.array(img)
 
     if np_img is None:
         return None, None, None, None, None

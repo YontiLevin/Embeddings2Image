@@ -21,7 +21,7 @@ def x2p(x=np.array([]), tol=1e-5, perplexity=30.0):
     """Performs a binary search to get P-values in such a way that each conditional Gaussian has the same perplexity."""
 
     # Initialize some variables
-    print "Computing pairwise distances..."
+    print("Computing pairwise distances...")
     n, _ = x.shape
     sum_x = np.sum(np.square(x), 1)
     d = np.add(np.add(-2 * np.dot(x, x.T), sum_x).T, sum_x)
@@ -66,13 +66,13 @@ def x2p(x=np.array([]), tol=1e-5, perplexity=30.0):
         p[i, np.concatenate((np.r_[0:i], np.r_[i + 1:n]))] = this_p
 
     # Return final P-matrix
-    print "Mean value of sigma: ", np.mean(np.sqrt(1 / beta))
+    print("Mean value of sigma: ", np.mean(np.sqrt(1 / beta)))
     return p
 
 
 def pca(x=np.array([]), no_dims=50):
     """Runs PCA on the NxD array X in order to reduce its dimensionality to no_dims dimensions."""
-    print "Preprocessing the data using PCA..."
+    print("Preprocessing the data using PCA...")
     n, _ = x.shape
     x -= np.tile(np.mean(x, 0), (n, 1))
     _, m = np.linalg.eig(np.dot(x.T, x))
@@ -83,10 +83,10 @@ def pca(x=np.array([]), no_dims=50):
 def TSNE(x=np.array([]), no_dims=2, initial_dims=50, perplexity=40.0):
     # Check inputs
     if isinstance(no_dims, float):
-        print "Error: array X should have type float."
+        print("Error: array X should have type float.")
         return -1
     if round(no_dims) != no_dims:
-        print "Error: number of dimensions should be an integer."
+        print("Error: number of dimensions should be an integer.")
         return -1
 
     # Initialize variables
@@ -140,6 +140,6 @@ def TSNE(x=np.array([]), no_dims=2, initial_dims=50, perplexity=40.0):
             p /= 4
 
         c = np.sum(p * np.log(p / q))
-    print "After {} Iterations the error is {}".format(j + 1, c)
+    print("After {} Iterations the error is {}".format(j + 1, c))
 
     return y

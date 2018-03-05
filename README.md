@@ -1,21 +1,32 @@
-# visualize-tsne
-This small project is for creating 2d images out of your tsne vectors.   
-The project was inspired by [Andrej Karpathy's blog post](http://cs.stanford.edu/people/karpathy/cnnembed/) on the visualization of CNNs using t-sne.  
-(this guy is pretty sharp :wink: - you should definitely follow him! ) 
+# Embeddings2Image
+#### former -> visualize-tsne
+This small project is for creating 2d images out of your images embeddings vectors.   
+It was inspired by [Andrej Karpathy's blog post](http://cs.stanford.edu/people/karpathy/cnnembed/) on the visualization of CNNs using t-sne.  
+(this guy is pretty sharp :wink: - you should definitely follow him! ).  
+
+**UPDATE**  
+At first it only supported dimension reduction using **t-sne** but now it also support the great **umap**.   
+Check it out [here](https://github.com/lmcinnes/umap)
+
 
 
 ## some examples
 <p align='center'>
-<img src="/examples/mnist2d.jpg" alt="Image of mnist 2d image" width="300" height="300"/>
+<img src="/examples/mnist2d.jpg" alt="Image of mnist 2d grid via TSNE" width="300" height="300"/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="/examples/mnistscatter.jpg" alt="Image of mnist scatter image" width="300" height="300"/>
+<img src="/examples/mnistscatter.jpg" alt="Image of mnist scatter via TSNE" width="300" height="300"/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="/examples/umapmanistscatter.jpg" alt="Image of mnist scatter via UMAP" width="300" height="300"/>
 <br/>
-mnist 2d image example
+mnist TSNE grid example
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mnist TSNE scatter example
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-mnist scatter image example
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mnist UMAP scatter example
 </p>
 <br/>
 <p align='center'>
@@ -37,10 +48,10 @@ cifar10 scatter image example
 ```python
 from modules import TsneImage   
  
-image = TsneImage()
+image = EmbeddingsProjection()
 image.path2data = 'data.hdf5'
 image.load_data()
-image.calculate_tsne()
+image.calculate_projection()
 image.create_image()
 ```
 #### important! the module expects an hdf5 file with 2 datasets:   
@@ -53,7 +64,7 @@ image.create_image()
  * urls - create a np.asarray out of a url list and load to image.image_list    
  * vectors - create a np.ndarray of the vectors and load to image.data_vectors   
  
-### from cmd
+### from cmd - needs updating!!!
 ```
 root@yonti:~/github/visualize-tsne$ python cmd.py -h
 usage: cmd.py [-h] -d PATH2DATA [-n OUTPUT_NAME] [-t OUTPUT_TYPE]
@@ -90,7 +101,7 @@ optional arguments:
 root@yonti:~/github/visualize-tsne$ python cmd.py -d /home/data/data.hdf5 -i 50 -s 4000 -n test
 ```
 
-### full usage options
+### full usage options - needs updating!!!
 
 ```python
 # the folowing have both getter and setter
@@ -120,8 +131,8 @@ image.image_list = img_list    # expects numpy array of strings.
                                # set this explicitly only if you dont load your data from 
                                # an hdf5 file
 
-image.data_vector      #  getter
-image.data_vector = data       # expects numpy ndarray of dense vectors. 
+image.data_vectors      #  getter
+image.data_vectors = data       # expects numpy ndarray of dense vectors. 
                                # this is filled up automatically when load_data is called.
                                # set this explicitly only if you dont load your data from 
                                # an hdf5 file
@@ -143,8 +154,8 @@ image.method =  'maaten'       # expects string. default is 'sklearn'.
 image.background_color         #  getter
 image.background_color =  'white'  # expects string. default is 'black'. the other option is 'white'
                                         
-image.tsne_vector      #  getter
-image.tsne_vector = data       # expects numpy ndarray of dense 2d vectors. 
+image.tsne_vectors      #  getter
+image.tsne_vectors = data       # expects numpy ndarray of dense 2d vectors. 
                                # this is filled up automatically when 
                                # image.calaculate_tsne is called.
                                # set this explicitly only if you have already the tsne vectors
@@ -160,6 +171,7 @@ image.create_image()  #  straight forward
  ```
  
 ## TODO list
+- [ ] update Readme
 - [x] upload my code
   - [ ] add change preplexity option
   - [ ] add scatter density control
@@ -169,4 +181,5 @@ image.create_image()  #  straight forward
   - [ ] imagenet
 - [x] better documentation 
   - [x] add usage examples to readme
+- [ ] Dockerize
 - [ ] \(optional) create server
