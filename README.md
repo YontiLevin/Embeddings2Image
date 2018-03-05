@@ -13,9 +13,9 @@ Check it out [here](https://github.com/lmcinnes/umap)
 ## some examples
 <p align='center'>
 <img src="/examples/mnist2d.jpg" alt="Image of mnist 2d grid via TSNE" width="250" height="250"/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="/examples/mnistscatter.jpg" alt="Image of mnist scatter via TSNE" width="250" height="250"/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="/examples/umapmnistscatter.jpg" alt="Image of mnist scatter via UMAP" width="250" height="250"/>
 <br/>
 mnist TSNE grid example
