@@ -47,11 +47,11 @@ cifar10 scatter image example
 ## Installation
 1. via pip
     1. ```pip install Embeddings2Image```
-2. Download / Clone
-    a. install - ```python setup.py install```
-    b. Or just use it as is
-        1. ```pip install -r requirements.txt```
-        2. see documentation below 
+2. Download / Clone   
+    1. install - ```python setup.py install```  
+    2. Or just use it as is  
+        1. ```pip install -r requirements.txt```  
+        2. see documentation below    
 
 ## Usage
 
@@ -87,7 +87,7 @@ Creating 2d images out of the embeddings ot the images
 optional arguments:
   -h, --help            show this help message and exit
   -d PATH2DATA, --path2data PATH2DATA
-                        Path to the hdf5 file
+                        Path to the hdf5 file   
   -n OUTPUT_NAME, --output_name OUTPUT_NAME
                         output image name. Default is tsne_scatter/grid.jpg
   -t OUTPUT_TYPE, --output_type OUTPUT_TYPE
