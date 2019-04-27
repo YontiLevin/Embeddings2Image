@@ -9,7 +9,7 @@ At first the package only supported dimension reduction using **t-sne** but now 
 Check it out [https://github.com/lmcinnes/umap](https://github.com/lmcinnes/umap)
 
 **UPDATE #2**  
-I saw that the project is useful to some people so i uploaded it to PyPI for easier integration. 
+I saw that the project is useful to some people so I uploaded it to PyPI for easier integration. 
 
 
 ## Examples
@@ -47,10 +47,11 @@ cifar10 scatter image example
 ## Installation
 1. via pip
     1. ```pip install Embeddings2Image```
-2. from source
-    1. Download / Clone
-    2. ```python setup.py install```
-    3. Or just use it as in cmd.py 
+2. Download / Clone
+    a. install - ```python setup.py install```
+    b. Or just use it as is
+        1. ```pip install -r requirements.txt```
+        2. see documentation below 
 
 ## Usage
 
