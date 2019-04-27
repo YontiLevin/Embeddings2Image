@@ -1,16 +1,18 @@
 # Embeddings2Image
 #### former -> visualize-tsne
-This small project is for creating 2d images out of your images embeddings vectors.   
+This small project is for creating 2d images out of the embeddings of the images.   
 It was inspired by [Andrej Karpathy's blog post](http://cs.stanford.edu/people/karpathy/cnnembed/) on the visualization of CNNs using t-sne.  
 (this guy is pretty sharp :wink: - you should definitely follow him! ).  
 
-**UPDATE**  
+**UPDATE #1**  
 At first the package only supported dimension reduction using **t-sne** but now it also support the great **umap**.
-Check it out [here](https://github.com/lmcinnes/umap)
+Check it out [(https://github.com/lmcinnes/umap](https://github.com/lmcinnes/umap)
+
+**UPDATE #2**  
+I saw that the project is useful to some people so i uploaded it to PyPI for easier integration. 
 
 
-
-## some examples
+## Examples
 <p align='center'>
 <img src="/examples/mnist2d.jpg" alt="Image of mnist 2d grid via TSNE" width="250" height="250"/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -42,13 +44,21 @@ cifar10 grid image example
 cifar10 scatter image example
 </p>
 
-## usage
+## Installation
+1. via pip
+    1. ```pip install Embeddings2Image```
+2. from source
+    1. Download / Clone
+    2. ```python setup.py install```
+    3. Or just use it as in cmd.py 
 
-### import into program
+## Usage
+
+### if installed via PyPI
 ```python
-from modules import TsneImage   
+from e2i import EmbeddingsProjector  
  
-image = EmbeddingsProjection()
+image = EmbeddingsProjector()
 image.path2data = 'data.hdf5'
 image.load_data()
 image.calculate_projection()
@@ -64,14 +74,14 @@ image.create_image()
  * urls - create a np.asarray out of a url list and load to image.image_list    
  * vectors - create a np.ndarray of the vectors and load to image.data_vectors   
  
-### from cmd - needs updating!!!
+### if cloned - you can use it from the cmd
 ```
-root@yonti:~/github/visualize-tsne$ python cmd.py -h
+root@yonti:~/github/Embeddings2|Image$ python cmd.py -h
 usage: cmd.py [-h] -d PATH2DATA [-n OUTPUT_NAME] [-t OUTPUT_TYPE]
               [-s OUTPUT_SIZE] [-i EACH_IMG_SIZE] [-c BG_COLOR] [--no-shuffle]
               [--no-sklearn] [--no-svd] [-b BATCH_SIZE]
 
-t-SNE visualization using images
+Creating 2d images out of the embeddings ot the images
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -88,9 +98,9 @@ optional arguments:
   -c BG_COLOR, --background BG_COLOR
                         choose output background color (black/white)
   --no-shuffle          use this flag if you don't want to shuffle
-  --no-sklearn          use this flag if you don't want to use sklearn
-                        implementation of tsne and you prepare the local
-                        option
+  --method              chose which method to use for projection.
+                        umap(default) / sklearn - for sklearn's tsne / matten
+                        - for his implementation of tsne
   --no-svd              it is better to reduce the dimension of long dense
                         vectors to a size of 50 or smallerbefore computing the
                         tsne.use this flag if you don't want to do so
@@ -98,10 +108,10 @@ optional arguments:
                         for speed/memory size errors consider using just a
                         portion of your data (default=all)
 
-root@yonti:~/github/visualize-tsne$ python cmd.py -d /home/data/data.hdf5 -i 50 -s 4000 -n test
+root@yonti:~/github/visualize-tsne$ python cmd.py -d /home/data/data.hdf5 -i 50 -s 4000 -n test 
 ```
 
-### full usage options - needs updating!!!
+### full usage options
 
 ```python
 # the folowing have both getter and setter
@@ -144,8 +154,9 @@ image.batch_size =  5000       # expects int. default is 0 which means that all 
                                # compute the tsne. 
 
 image.method       #  getter
-image.method =  'maaten'       # expects string. default is 'sklearn'. 
-                               # the other option is 'maaten'
+image.method =  'maaten'       # expects string. default is 'umap'.
+                               # it is both effiecient in time and ,to my naked eye, seperates the clusters better. 
+                               # the other options are 'sklearn' and 'maaten'
                                # this sets the tsne method to sklearn.tsne vs python version
                                # of Maaten's tsne.
                                # i guess they both do the same but didn't fully check it 
@@ -169,17 +180,3 @@ image.calculate_tsne()  #  straight forward
 image.create_image()  #  straight forward
 
  ```
- 
-## TODO list
-- [ ] update Readme
-- [x] upload my code
-  - [ ] add change preplexity option
-  - [ ] add scatter density control
-  - [ ] add simple oneliner opertion option
-- [ ] upload more examples
-  - [X] cifar 10
-  - [ ] imagenet
-- [x] better documentation 
-  - [x] add usage examples to readme
-- [ ] Dockerize
-- [ ] \(optional) create server
