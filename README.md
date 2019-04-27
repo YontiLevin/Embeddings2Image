@@ -5,7 +5,7 @@ It was inspired by [Andrej Karpathy's blog post](http://cs.stanford.edu/people/k
 (this guy is pretty sharp :wink: - you should definitely follow him! ).  
 
 **UPDATE**  
-At first it only supported dimension reduction using **t-sne** but now it also support the great **umap**.   
+At first the package only supported dimension reduction using **t-sne** but now it also support the great **umap**.
 Check it out [here](https://github.com/lmcinnes/umap)
 
 

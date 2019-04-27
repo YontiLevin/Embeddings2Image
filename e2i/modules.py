@@ -1,25 +1,17 @@
 from sklearn.decomposition import TruncatedSVD
 from sklearn.manifold import TSNE as SKLEARN_TSNE
-from Maatens_tsne import TSNE as MATTENS_TSNE
-from img_tools import get_image
+from .Maatens_tsne import TSNE as MATTENS_TSNE
+from .img_tools import get_image
 from tqdm import tqdm
 import cv2
 from math import ceil
 import h5py
 import numpy as np
 from umap import UMAP as UMAP_PROJECTION
-
-# CONSTS
-SCATTER = 'scatter'
-GRID = 'grid'
-BLACK = 'black'
-WHITE = 'white'
-SKLEARN = 'sklearn'
-MAATEN = 'matten'
-UMAP = 'umap'
+from .consts import *
 
 
-class EmbeddingsProjection(object):
+class EmbeddingsProjector(object):
     def __init__(self):
         self._path2data = None
         self._output_img_name = 'Projection'
@@ -275,10 +267,11 @@ class EmbeddingsProjection(object):
 
         return image
 
+
 if __name__ == '__main__':
     from time import time
     start = time()
-    image = EmbeddingsProjection()
+    image = EmbeddingsProjector()
     image.path2data = 'data/mnist_images.hdf5'
     image.load_data()
     image.each_img_size = 25
@@ -290,3 +283,5 @@ if __name__ == '__main__':
     stop = time()
     duration = stop - start
     print(f'process took {duration} seconds')
+
+

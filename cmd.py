@@ -1,10 +1,10 @@
 import argparse
-from modules import TsneImage
+from e2i.modules import EmbeddingsProjector
 
 
 def user_inputs():
 
-    desc = 't-SNE visualization using images'
+    desc = 'Creating 2d images out of your images embeddings vectors'
     parser = argparse.ArgumentParser(description=desc)
 
     parser.add_argument('-d', '--path2data', type=str, default=None, dest='path2data',
@@ -36,10 +36,12 @@ def user_inputs():
 if __name__ == "__main__":
 
     args = user_inputs()
-    tsne_image = TsneImage()
-    tsne_image.args = args
-    tsne_image.load_data()
-    tsne_image.calculate_tsne()
-    tsne_image.create_image()
+    ep = EmbeddingsProjector()
+    ep.args = args
+    ep.load_data()
+    ep.calculate_projection()
+    ep.create_image()
 
     print('Done!')
+
+
