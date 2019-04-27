@@ -5,8 +5,8 @@ It was inspired by [Andrej Karpathy's blog post](http://cs.stanford.edu/people/k
 (this guy is pretty sharp :wink: - you should definitely follow him! ).  
 
 **UPDATE #1**  
-At first the package only supported dimension reduction using **t-sne** but now it also support the great **umap**.
-Check it out [(https://github.com/lmcinnes/umap](https://github.com/lmcinnes/umap)
+At first the package only supported dimension reduction using **t-sne** but now it also support the great **umap**.  
+Check it out [https://github.com/lmcinnes/umap](https://github.com/lmcinnes/umap)
 
 **UPDATE #2**  
 I saw that the project is useful to some people so i uploaded it to PyPI for easier integration. 
