@@ -7,7 +7,7 @@ from shutil import rmtree
 from setuptools import setup, Command
 
 # Package meta-data.
-NAME = 'Embedding2Image'
+NAME = 'Embeddings2Image'
 DESCRIPTION = 'Creating 2d images out of your images embeddings vectors'
 URL = 'https://github.com/yontilevin/Embeddings2Image'
 EMAIL = 'therealyontilevin@gmail.com'

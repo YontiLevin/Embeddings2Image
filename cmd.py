@@ -4,7 +4,7 @@ from e2i.modules import EmbeddingsProjector
 
 def user_inputs():
 
-    desc = 'Creating 2d images out of your images embeddings vectors'
+    desc = 'Creating 2d images out of the embeddings ot the images'
     parser = argparse.ArgumentParser(description=desc)
 
     parser.add_argument('-d', '--path2data', type=str, default=None, dest='path2data',
@@ -21,9 +21,8 @@ def user_inputs():
                         help='choose output background color (black/white)')
     parser.add_argument('--no-shuffle', dest='shuffle', default=True, action='store_false',
                         help='use this flag if you don\'t want to shuffle')
-    parser.add_argument('--no-sklearn', dest='sklearn', default=True, action='store_false',
-                        help='use this flag if you don\'t want to use sklearn implementation of tsne '
-                             'and you prepare the local option')
+    parser.add_argument('--method', dest='method', default='umap',
+                        help='chose which method to use for projection. umap(default) / sklearn - for sklearn\'s tsne / matten - for his implementation of tsne')
     parser.add_argument('--no-svd', dest='svd', default=True, action='store_false',
                         help='it is better to reduce the dimension of long dense vectors to a size of 50 or smaller'
                              'before computing the tsne.'
