@@ -1,14 +1,14 @@
 from sklearn.decomposition import TruncatedSVD
 from sklearn.manifold import TSNE as SKLEARN_TSNE
-from .Maatens_tsne import TSNE as MATTENS_TSNE
-from .img_tools import get_image
+from e2i.Maatens_tsne import TSNE as MATTENS_TSNE
+from e2i.img_tools import get_image
 from tqdm import tqdm
 import cv2
 from math import ceil
 import h5py
 import numpy as np
 from umap import UMAP as UMAP_PROJECTION
-from .consts import *
+from e2i.consts import *
 
 
 class EmbeddingsProjector(object):
@@ -157,8 +157,8 @@ class EmbeddingsProjector(object):
     def load_data(self, data_filename=None):
         self.path2data = data_filename or self._path2data
         with h5py.File(self.path2data, 'r') as hf:
-            image_names = hf.get('urls').value
-            data_vecs = np.array(hf.get('vectors').value)
+            image_names = hf.get('urls')[()]
+            data_vecs = np.array(hf.get('vectors')[()])
             assert len(image_names) == data_vecs.shape[0], 'img list length doen\'t match vector count'
             hf.close()
         self.data_vectors = data_vecs.astype(type('float_', (float,), {}))
@@ -214,13 +214,14 @@ class EmbeddingsProjector(object):
 
     def _grid(self):
         ratio = int(self.output_img_size / self.each_img_size)
-        tsne_norm = self.projection_vectors[:, ] / ratio
+        tsne_norm = self.projection_vectors[:, ] # / ratio
         used_imgs = np.equal(self.projection_vectors[:, 0], None)
         image = np.ones((self.output_img_size, self.output_img_size, 3)) * self.background_color
         for x in tqdm(range(ratio)):
             x0 = x * self.each_img_size
             x05 = (x + 0.5) * self.each_img_size
-            for y in range(ratio):
+            y = 0
+            while y < ratio:
                 y0 = y * self.each_img_size
                 y05 = (y + 0.5) * self.each_img_size
                 tmp_tsne = tsne_norm - [x05, y05]
@@ -231,13 +232,13 @@ class EmbeddingsProjector(object):
                 img_path = self.image_list[min_index]
                 small_img, x1, y1, dx, dy = get_image(img_path, self.each_img_size)
                 if small_img is None:
-                    y -= 1
                     continue
                 if x < 1 and all(side < self.each_img_size for side in [x1, y1]):
                     self.each_img_size = min(x1, y1)
                     dx = int(ceil(x1 / 2))
                     dy = int(ceil(y1 / 2))
-                image[x0 + dx:x0 + dx + x1, y0 + dy:y0 + dy + y1] = small_img
+                image[y0 + dy:y0 + dy + y1,x0 + dx:x0 + dx + x1] = small_img
+                y += 1
 
         return image
 
@@ -261,9 +262,9 @@ class EmbeddingsProjector(object):
                 dx = int(ceil(x1 / 2))
                 dy = int(ceil(y1 / 2))
             # test if there is an image there already
-            if np.max(image[x0 + dx:x0 + dx + x1, y0 + dy:y0 + dy + y1]) > 0:
+            if np.max(image[y0 + dy:y0 + dy + y1, x0 + dx:x0 + dx + x1]) > 0:
                 continue
-            image[x0 + dx:x0 + dx + x1, y0 + dy:y0 + dy + y1] = small_img
+            image[y0 + dy:y0 + dy + y1, x0 + dx:x0 + dx + x1] = small_img
 
         return image
 
@@ -277,7 +278,7 @@ if __name__ == '__main__':
     image.each_img_size = 25
     # image.method = SKLEARN
     image.calculate_projection()
-    image.output_img_name = 'data/mnist_march5'
+    image.output_img_name = 'data/mnist_nov_11_2019'
     image.output_img_type= 'scatter'
     image.create_image()
     stop = time()
