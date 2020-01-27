@@ -3,7 +3,7 @@ h5py==2.7.1
 requests==2.20.0
 setuptools==38.5.1
 opencv_python==3.4.0.12
-umap_learn==0.3.8
+umap_learn==0.3.10
 tqdm==4.19.5
 scikit_learn==0.20.3
 umap==0.1.1

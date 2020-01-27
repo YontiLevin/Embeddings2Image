@@ -11,6 +11,8 @@ Check it out [https://github.com/lmcinnes/umap](https://github.com/lmcinnes/umap
 **UPDATE #2**  
 I saw that the project is useful to some people so I uploaded it to PyPI for easier integration. 
 
+**UPDATE #3**  
+Checkout the [end2end example](examples/end2end.py) added by @nivha 
 
 ## Examples
 <p align='center'>
