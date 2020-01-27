@@ -149,10 +149,10 @@ class EmbeddingsProjector(object):
 
     @background_color.setter
     def background_color(self, color):
-        if color.upper() not in [BLACK, WHITE]:
-            print('color can only accept BLACK or WHITE')
+        if color.lower() not in [BLACK, WHITE]:
+            print('color can only accept black or white')
         else:
-            self._background_color = color
+            self._background_color = color.lower()
 
     def load_data(self, data_filename=None):
         self.path2data = data_filename or self._path2data
@@ -162,7 +162,7 @@ class EmbeddingsProjector(object):
             assert len(image_names) == data_vecs.shape[0], 'img list length doen\'t match vector count'
             hf.close()
         self.data_vectors = data_vecs.astype(type('float_', (float,), {}))
-        self.image_list = [f'data/mnist_imgs/{im.decode()}' for im in image_names]
+        self.image_list = [im.decode("utf-8")  for im in image_names]
         self._crop()
 
     def shuffle(self):
@@ -248,7 +248,7 @@ class EmbeddingsProjector(object):
         tmp_vectors = self.projection_vectors * self.output_img_size  # self.each_img_size * 2
         maxx, _ = tmp_vectors[maxx_idx]
         _, maxy = tmp_vectors[maxy_idx]
-        image = np.zeros((self.output_img_size + self.each_img_size, self.output_img_size + self.each_img_size, 3)) * self.background_color
+        image = np.ones((self.output_img_size + self.each_img_size, self.output_img_size + self.each_img_size, 3)) * self.background_color
             # np.zeros((int(ceil(maxx)) + self.each_img_size,
             #               int(ceil(maxy)) + self.each_img_size, 3)) * self.background_color
         for i in tqdm(range(image_num)):
@@ -262,7 +262,7 @@ class EmbeddingsProjector(object):
                 dx = int(ceil(x1 / 2))
                 dy = int(ceil(y1 / 2))
             # test if there is an image there already
-            if np.max(image[y0 + dy:y0 + dy + y1, x0 + dx:x0 + dx + x1]) > 0:
+            if np.mean(image[y0 + dy:y0 + dy + y1, x0 + dx:x0 + dx + x1]) != self.background_color:
                 continue
             image[y0 + dy:y0 + dy + y1, x0 + dx:x0 + dx + x1] = small_img
 
