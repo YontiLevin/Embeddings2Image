@@ -162,7 +162,7 @@ class EmbeddingsProjector(object):
             assert len(image_names) == data_vecs.shape[0], 'img list length doen\'t match vector count'
             hf.close()
         self.data_vectors = data_vecs.astype(type('float_', (float,), {}))
-        self.image_list = [f'data/mnist_imgs/{im.decode()}' for im in image_names]
+        self.image_list = [f'{im.decode()}' for im in image_names]
         self._crop()
 
     def shuffle(self):
