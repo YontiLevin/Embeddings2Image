@@ -1,4 +1,4 @@
-numpy==1.14.0
+numpy==1.22.0
 h5py==2.7.1
 requests==2.20.0
 setuptools==38.5.1
